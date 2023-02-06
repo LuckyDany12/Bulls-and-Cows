@@ -17,30 +17,6 @@ I've generated a random 4 digit number for you.
 Let's play a bulls and cows game.
 {delimiter}""")
 
-def correct_number(generated_number: list, final_number: list) -> int:
-    bulls = int()
-    for num in final_number:
-        if num == final_number[0] == generated_number[0]:
-            bulls += 1
-        elif num == final_number[1] == generated_number[1]:
-            bulls += 1
-        elif num == final_number[2] == generated_number[2]:
-            bulls += 1
-        elif num == final_number[3] == generated_number[3]:
-            bulls += 1
-        else:
-            bulls += 0
-    return bulls
-
-def contains_number(generated_number: list, final_number: list) -> int:
-    cows = int()
-    for num in final_number:
-        if num in generated_number:
-            cows += 1
-        else:
-            cows += 0
-    return cows
-
 repeat_game = True
 count_games = 0
 total_count = []
@@ -48,18 +24,18 @@ total_count = []
 while repeat_game == True:
     count_games += 1
 
-    generated_number = []
+    generated_num = []
     while True:
         random_number = random.choice(range(1,10))
-        if str(random_number) in generated_number:
+        if str(random_number) in generated_num:
             continue
         else:
-            generated_number.append(str(random_number))
-        if len(generated_number) == 4:
+            generated_num.append(str(random_number))
+        if len(generated_num) == 4:
             break
 
-    # print(generated_number) = you can remove this line comment 
-    #   if you want to know generated number
+    print(generated_num)
+   
     
     print("Enter a 4 digit number: ")
     print(delimiter)
@@ -67,10 +43,10 @@ while repeat_game == True:
     count = 0
     game_runs = True
 
+    start = datetime.datetime.now()
     while game_runs:
         count +=1 
-        start = datetime.datetime.now().second
-       
+        
         while True:
             guess_number = str(input(f">>> "))
             if guess_number.isdigit() and len(guess_number) != 4:
@@ -78,7 +54,7 @@ while repeat_game == True:
             elif guess_number.startswith("0"):
                 print("Your number can not start with 0.")
             elif not guess_number.isdigit():
-                print("You did not imput a numbers.")
+                print("You did not input a numbers.")
             elif guess_number.isdigit():
                 guess = []
                 for x in guess_number:
@@ -90,17 +66,37 @@ while repeat_game == True:
                 if len(guess) == 4:
                     break
 
-        final_number = []
+        final_num = []
         for x in guess_number:
-            final_number.append(x) 
+            final_num.append(x) 
 
-        bulls = correct_number(generated_number,final_number)
-        cows = contains_number(generated_number,final_number)
+        bulls = int()
+        cows = int()
+        for num in final_num:
+            if num in generated_num:
+                if num == final_num[0] == generated_num[0]:
+                    cows += 0
+                    bulls += 1
+                elif num == final_num[1] == generated_num[1]:
+                    cows += 0
+                    bulls += 1
+                elif num == final_num[2] == generated_num[2]:
+                    cows += 0
+                    bulls += 1
+                elif num == final_num[3] == generated_num[3]:
+                    cows += 0
+                    bulls += 1
+                else:
+                    cows += 1
+                    bulls += 0
+            else:
+                cows += 0
+                bulls += 0
+
         print(f"{bulls} bulls, {cows} cows")
         print(delimiter)
     
         if bulls == 4:
-            end = datetime.datetime.now().second
             print(
                 f"Correct. You've guessed the right number\n"
                 f"in {count} guesses!"
@@ -111,16 +107,17 @@ while repeat_game == True:
                 print("That's average.")
             else:
                 print("Not so good. :(")
-            
+                
             total_count.append(count)
-            print(f"You did it in {end - start} seconds.")
+            end = datetime.datetime.now()
+            time = end - start
+            print(f"You did it in {time}")
             print(delimiter)
-            game_runs = False
+            game_runs = False  
 
     repeat = input("Do you want to play again? y/n: ")
     if repeat == "y":
         continue
-
     else:
         repeat_game = False
         print(
