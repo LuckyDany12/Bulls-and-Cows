@@ -34,8 +34,7 @@ while repeat_game == True:
         if len(generated_num) == 4:
             break
 
-    print(generated_num)
-   
+    # print(generated_num)
     
     print("Enter a 4 digit number: ")
     print(delimiter)
