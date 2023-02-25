@@ -11,41 +11,40 @@ import datetime
 
 delimiter = "-" * 48
 
-print(f"""Hi there! Wellcome. 
+print(
+    f"""Hi there! Wellcome. 
 {delimiter}
 I've generated a random 4 digit number for you. 
 Let's play a bulls and cows game.
-{delimiter}""")
+{delimiter}"""
+)
 
 repeat_game = True
 count_games = 0
 total_count = []
 
+
+def generate_number():
+    random_number = random.sample(range(1, 10), 4)
+    return random_number
+
+
 while repeat_game == True:
     count_games += 1
 
-    generated_num = []
-    while True:
-        random_number = random.choice(range(1,10))
-        if str(random_number) in generated_num:
-            continue
-        else:
-            generated_num.append(str(random_number))
-        if len(generated_num) == 4:
-            break
+    generated_num = generate_number()
 
     # print(generated_num)
-    
     print("Enter a 4 digit number: ")
     print(delimiter)
 
     count = 0
     game_runs = True
-
     start = datetime.datetime.now()
+
     while game_runs:
-        count +=1 
-        
+        count += 1
+
         while True:
             guess_number = str(input(f">>> "))
             if guess_number.isdigit() and len(guess_number) != 4:
@@ -54,65 +53,43 @@ while repeat_game == True:
                 print("Your number can not start with 0.")
             elif not guess_number.isdigit():
                 print("You did not input a numbers.")
-            elif guess_number.isdigit():
-                guess = []
-                for x in guess_number:
-                    if x in guess:
-                        print("Number must not contain duplicates.")
-                        break
-                    else:
-                        guess.append(x)
-                if len(guess) == 4:
-                    break
+            elif len(set(guess_number)) != 4:
+                print("Number must not contain duplicates.")
+            else:
+                break
 
         final_num = []
-        for x in guess_number:
-            final_num.append(x) 
+        for i in guess_number:
+            num = int(i)
+            final_num.append(num)
 
         bulls = int()
         cows = int()
-        for num in final_num:
-            if num in generated_num:
-                if num == final_num[0] == generated_num[0]:
-                    cows += 0
-                    bulls += 1
-                elif num == final_num[1] == generated_num[1]:
-                    cows += 0
-                    bulls += 1
-                elif num == final_num[2] == generated_num[2]:
-                    cows += 0
-                    bulls += 1
-                elif num == final_num[3] == generated_num[3]:
-                    cows += 0
-                    bulls += 1
-                else:
-                    cows += 1
-                    bulls += 0
-            else:
-                cows += 0
-                bulls += 0
+        for i, num in enumerate(final_num):
+            if num == generated_num[i]:
+                bulls += 1
+            elif num in generated_num:
+                cows += 1
 
         print(f"{bulls} bulls, {cows} cows")
         print(delimiter)
-    
+
         if bulls == 4:
-            print(
-                f"Correct. You've guessed the right number\n"
-                f"in {count} guesses!"
-                )
+            print(f"Correct. You've guessed the right number\n" 
+                  f"in {count} guesses!")
             if count <= 8:
                 print("That's amazing!")
             elif count > 8 and count <= 12:
                 print("That's average.")
             else:
                 print("Not so good. :(")
-                
+
             total_count.append(count)
             end = datetime.datetime.now()
             time = end - start
             print(f"You did it in {time}")
             print(delimiter)
-            game_runs = False  
+            game_runs = False
 
     repeat = input("Do you want to play again? y/n: ")
     if repeat == "y":
@@ -122,7 +99,8 @@ while repeat_game == True:
         print(
             f"You played {count_games} games,\n"
             f"total number of guesses: {sum(total_count)}."
-            )
+        )
+
         
 
 
