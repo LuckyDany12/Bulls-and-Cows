@@ -12,7 +12,7 @@ import datetime
 delimiter = "-" * 48
 
 print(
-    f"""Hi there! Wellcome. 
+    f"""Hi there! Welcome. 
 {delimiter}
 I've generated a random 4 digit number for you. 
 Let's play a bulls and cows game.
