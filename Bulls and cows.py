@@ -25,6 +25,11 @@ total_count = []
 
 
 def generate_number():
+    """_summary_: generate a random 4 digit number
+
+    Returns:
+        _type_: list, _description_: list of 4 digits
+    """
     random_number = random.sample(range(1, 10), 4)
     return random_number
 
@@ -35,6 +40,7 @@ while repeat_game == True:
     generated_num = generate_number()
 
     # print(generated_num)
+    
     print("Enter a 4 digit number: ")
     print(delimiter)
 
@@ -71,7 +77,11 @@ while repeat_game == True:
             elif num in generated_num:
                 cows += 1
 
-        print(f"{bulls} bulls, {cows} cows")
+        if bulls == 1 or cows == 1:
+            print(f"{bulls} bull, {cows} cow")
+        else:
+            print(f"{bulls} bulls, {cows} cows")
+        
         print(delimiter)
 
         if bulls == 4:
